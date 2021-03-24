@@ -6,8 +6,11 @@ services:
     ports: 
       - 3000:3000
     environment: 
-      - DB_NAME=books
-      - DB_CONNECTION=mongodb://admin:bookspass@db:27017
+      - PGUSER=futureproof
+      - PGHOST=db
+      - PGPASSWORD=shelterpass
+      - PGDATABASE=books
+      - PGPORT=5432
     depends_on:
       - db
     volumes:
@@ -17,13 +20,13 @@ services:
     command: bash -c "npm install && npm start"
 
   db:
-    image: mongo:latest
+    image: postgres:latest
     volumes:
-      - "dbdata:/var/lib/mongodb/data"
-      - "./db/seeds.js:/docker-entrypoint-initdb.d/seeds.js:ro"
+      - "dbdata:/var/lib/postgresql/data"
+      - "./db:/docker-entrypoint-initdb.d/:ro"
     environment: 
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_DATABASE=books
-      - MONGO_INITDB_ROOT_PASSWORD=bookspass
+      - POSTGRES_DB=books
+      - POSTGRES_USER=futureproof
+      - POSTGRES_PASSWORD=shelterpass
 volumes:
-  dbdata:
+   dbdata:
