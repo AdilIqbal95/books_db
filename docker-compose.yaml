@@ -6,8 +6,8 @@ services:
     ports: 
       - 3000:3000
     environment: 
-      - DB_NAME=books
-      - DB_CONNECTION=mongodb://admin:bookspass@db:27017
+      - PGDATABASE=books
+      - PGPORT=5432
     depends_on:
       - db
     volumes:
@@ -19,11 +19,9 @@ services:
   db:
     image: mongo:latest
     volumes:
-      - "dbdata:/var/lib/mongodb/data"
-      - "./db/seeds.js:/docker-entrypoint-initdb.d/seeds.js:ro"
+      - "dbdata:/var/lib/postgresql/data"
+      - "./db:/docker-entrypoint-initdb.d/:ro"
     environment: 
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_DATABASE=books
-      - MONGO_INITDB_ROOT_PASSWORD=bookspass
+      - POSTGRES_DB=books
 volumes:
   dbdata:
