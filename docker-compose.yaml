@@ -6,6 +6,9 @@ services:
     ports: 
       - 3000:3000
     environment: 
+      - PGUSER=futureproof
+      - PGHOST=db
+      - PGPASSWORD=shelterpass
       - PGDATABASE=books
       - PGPORT=5432
     depends_on:
@@ -17,11 +20,13 @@ services:
     command: bash -c "npm install && npm start"
 
   db:
-    image: mongo:latest
+    image: postgres:latest
     volumes:
       - "dbdata:/var/lib/postgresql/data"
       - "./db:/docker-entrypoint-initdb.d/:ro"
     environment: 
       - POSTGRES_DB=books
+      - POSTGRES_USER=futureproof
+      - POSTGRES_PASSWORD=shelterpass
 volumes:
-  dbdata:
+   dbdata:
