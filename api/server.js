@@ -15,7 +15,6 @@ function getBooks() {
         try {
             let bookData = await db.query(`SELECT * FROM books`);
             let book = bookData.rows
-            console.log(book)
             resolve (book);
         } catch (err) {
             reject('books not found');
@@ -24,9 +23,9 @@ function getBooks() {
 }
 
 //all books
-
 server.get('/books', async (req,res) => res.send(
     await getBooks()
 ))
+
 
 module.exports = server
